@@ -1,0 +1,230 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>The Code</title>
+
+      <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #004aad; /* Blue */
+            font-weight: bold;
+        }
+
+        .table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        thead {
+            background-color: #004aad; /* Blue */
+            color: white;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f8ff; /* Light blue hover */
+        }
+
+        .btn {
+            background-color: #ff7a00; /* Orange */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+        }
+
+        .btn:hover {
+            background-color: #e06500; /* Darker orange */
+        }
+    </style>
+
+    
+      <!-- Material Icons -->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    </head>
+    <body>
+      {% extends "layout.html" %}
+      {% block content %}
+      <!-- Top Navigation Bar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+          <form class="d-flex mx-auto w-50">
+            <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+            <button class="btn btn-outline-dark search-btn" type="submit">
+              <span class="material-icons">search</span>
+            </button>
+          </form>
+          <div class="d-flex align-items-center">
+            <button class="btn btn-light icon-btn">
+              <span class="material-icons">settings</span>
+            </button>
+            <button class="btn btn-light icon-btn pl-2">
+              <span class="material-icons">account_circle</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Sidebar -->
+          <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm" style="min-height: 700px;">
+            <div class="position-sticky pt-4" id="sidebarMenu">
+              <ul class="nav flex-column">
+                <!-- Customer Management Collapsible -->
+                <li class="nav-item">
+                  <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                    <strong>Customer Management</strong>
+                  </a>
+                  <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                      <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- Riders Collapsible -->
+                <li class="nav-item">
+                  <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+                   <strong> Riders</strong>
+                  </a>
+                  <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                      <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- Deals Collapsible -->
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+                   <strong> Deals</strong>
+                  </a>
+                  <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                      <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- Analytics Collapsible -->
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+                   <strong> Analytics</strong>
+                  </a>
+                  <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                      <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- Account Collapsible -->
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                    <strong>Account</strong>
+                  </a>
+                  <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                      {% if session['key'] %}
+                      <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                      {% else %}
+                      <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                      <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                      {% endif %}
+                      
+                      
+                    </ul>
+                  </div>
+               
+                </li>
+    
+                <!-- contact form -->
+    
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="#contactMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                    <strong>User Requests</strong>
+                  </a>
+                  <div class="collapse" id="contactMenu" data-bs-parent="#sidebarMenu">
+                    <ul class="list-unstyled ms-3">
+                     
+                      <li><a class="nav-link text-dark bg-light" href="/admin/requests">Requests</a></li>
+                    </ul>
+                  </div>
+              
+                </li>
+              </ul>
+            </div>
+          </nav>
+    
+          <!-- Main Content Area -->
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+            <div id="content-area">
+              <!-- Dynamic content will load here -->
+    
+              <div class="container">
+                <h2 class="text-center"><i class="fas fa-address-book"></i> Contact Form Submissions</h2>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card"></i> ID</th>
+                            <th><i class="fas fa-user"></i> User Name</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-phone"></i> Phone</th>
+                            <th><i class="fas fa-tag"></i> Subject</th>
+                            <th><i class="fas fa-comment-dots"></i> Message</th>
+                            <th><i class="fas fa-calendar-alt"></i> Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contact_forms %}
+                        <tr>
+                            <td>{{ contact.id }}</td>
+                            <td>{{ contact.user_name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.phone }}</td>
+                            <td>{{ contact.subject }}</td>
+                            <td>{{ contact.message }}</td>
+                            <td>{{ contact.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    
+    
+      
+    
+    
+            </div>
+          </main>
+        </div>
+      </div>
+    
+      <!-- Footer -->
+      <div class="footer">
+        <p>&copy; 2024 Riders CRM | Built with ❤️ for efficiency and growth.</p>
+        <p><a href="#"  id="getStartedButton">Need Help?</a></p>
+      </div>
+      {% endblock %}
+    </body>
+    </html>
+    

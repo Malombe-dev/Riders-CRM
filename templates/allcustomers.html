@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Code</title>
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+  {% extends "layout.html" %}
+  {% block content %}
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+      <form class="d-flex mx-auto w-50">
+        <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+        <button class="btn btn-outline-dark search-btn" type="submit">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-light icon-btn">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-light icon-btn pl-2">
+          <span class="material-icons">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm">
+        <div class="position-sticky pt-4" id="sidebarMenu">
+          <ul class="nav flex-column">
+            <!-- Customer Management Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                <strong>Customer Management</strong>
+              </a>
+              <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Riders Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+               <strong> Riders</strong>
+              </a>
+              <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Deals Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+               <strong> Deals</strong>
+              </a>
+              <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Analytics Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+               <strong> Analytics</strong>
+              </a>
+              <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Account Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                <strong>Account</strong>
+              </a>
+              <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  {% if session['key'] %}
+                  <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                  {% else %}
+                  <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+        
+        <div id="content-area">
+          <!-- Dynamic content will load here -->
+
+
+
+
+<!-- Main Container for All Elements -->
+
+
+
+<div style="background-color: orange;" class="d-flex justify-content-between align-items-center p-3 container-flex">
+<section class="col-md-5">
+    <h2>All Customers</h2>
+     <!-- Highlighted Search Input Area -->   
+</section>
+
+<section class="col-md-4">
+   
+  <form class="form-inline d-flex align-items-center" action="{{ url_for('allcustomers') }}" method="GET" id="search-form">
+    <input type="text" name="search" class="form-control" 
+           value="{{ search_query }}" 
+           placeholder="Search by name, phone, or location" 
+           style="width: 300px;" id="search-input">
+    <button type="submit" class="btn btn-primary ml-2">
+        <i class="fas fa-search"></i> Search
+    </button>
+</form>
+
+    
+</section>
+<section class="col-md-3">
+    <button id="download-btn" class="btn btn-success">
+        <i class="fas fa-download"></i> Download CSV
+    </button>
+    
+</section>
+
+</div>
+
+<!-- Show No Results Found if applicable -->
+{% if no_results %}
+<div class="alert alert-warning text-center">
+    <strong>No results found for "{{ search_query }}"</strong>
+</div>
+{% endif %}
+
+<!-- Table of Riders -->
+<div class="table-responsive mt-4">
+    <table id="rider-table" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Rider ID</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Customer Name</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Phone Number</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Work Location</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Current Motorbike</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Fuel Consumption per Day</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Pending Loan</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Lead Classification</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Comments</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Submitted By</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">Actions</th>
+                <th class="text-center" style="background-color: #007bff; color: white; padding: 10px;">View</th> <!-- New View column -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for rider in riders %}
+            <tr>
+                <td>{{ rider[0] }}</td>  <!-- rider_id -->
+                <td>{{ rider[1] }}</td>  <!-- customername -->
+                <td>{{ rider[2] }}</td>  <!-- phone_number -->
+                <td>{{ rider[3] }}</td>  <!-- work_location -->
+                <td>{{ rider[4] }}</td>  <!-- current_motorbike -->
+                <td>{{ rider[5] }}</td>  <!-- fuel_consumption_per_day -->
+                <td>{{ 'Yes' if rider[6] else 'No' }}</td>  <!-- any_pending_loan -->
+                <td>{{ rider[7] }}</td>  <!-- lead_classification -->
+                <td>{{ rider[8] }}</td>  <!-- any_comments -->
+                <td>{{ rider[9] }}</td>  <!-- submitted_by -->
+                <td>
+                    <form method="POST" action="{{ url_for('delete_rider', rider_id=rider[0]) }}" style="display:inline;" onsubmit="return confirmDelete()">
+                        <button id="deleteBtn" type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <a href="{{ url_for('rider_details', rider_id=rider[0]) }}" class="btn btn-info btn-sm">View Customer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination (optional) -->
+<div class="text-center mt-4">
+    {% if page > 1 %}
+    <a href="{{ url_for('allcustomers', page=page-1) }}" class="btn btn-secondary mr-2">Previous</a>
+    {% endif %}
+    <a href="{{ url_for('allcustomers', page=page+1) }}" class="btn btn-secondary">Next</a>
+</div>
+</div>
+
+<!-- JavaScript for Confirm Delete -->
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this rider?");
+}
+</script>
+
+<!-- JavaScript for CSV Download -->
+<script>
+document.getElementById('download-btn').addEventListener('click', function () {
+var table = document.getElementById('rider-table');
+var rows = table.querySelectorAll('tr');
+var csvContent = "";
+
+// Convert each row into CSV format
+rows.forEach(function (row) {
+    var rowData = [];
+    row.querySelectorAll('td, th').forEach(function (cell) {
+        rowData.push(cell.innerText.replace(/,/g, ''));  // Remove commas to avoid issues
+    });
+    csvContent += rowData.join(',') + '\n';  // Join row data by commas
+});
+
+// Create a link element to download the CSV
+var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+var link = document.createElement('a');
+link.href = URL.createObjectURL(blob);
+link.setAttribute('download', 'riders_data.csv');
+
+// Append link to body and trigger click
+document.body.appendChild(link);
+link.click();
+
+// Remove the link after triggering download
+document.body.removeChild(link);
+});
+</script>
+         
+        </div>
+      </main>
+    </div>
+  </div>
+   <!-- Footer -->
+   <footer class="bg-primary text-white text-center py-3 mt-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Your Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+  {% endblock %}
+</body>
+</html>

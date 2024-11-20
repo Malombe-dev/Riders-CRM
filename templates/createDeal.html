@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Code</title>
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+  {% extends "layout.html" %}
+  {% block content %}
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+      <form class="d-flex mx-auto w-50">
+        <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+        <button class="btn btn-outline-dark search-btn" type="submit">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-light icon-btn">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-light icon-btn pl-2">
+          <span class="material-icons">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm" style="min-height: 700px;">
+        <div class="position-sticky pt-4" id="sidebarMenu">
+          <ul class="nav flex-column">
+            <!-- Customer Management Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                <strong>Customer Management</strong>
+              </a>
+              <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Riders Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+               <strong> Riders</strong>
+              </a>
+              <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Deals Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+               <strong> Deals</strong>
+              </a>
+              <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Analytics Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+               <strong> Analytics</strong>
+              </a>
+              <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Account Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                <strong>Account</strong>
+              </a>
+              <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  {% if session['key'] %}
+                  <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                  {% else %}
+                  <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+        <div id="content-area">
+          <!-- Dynamic content will load here -->
+
+<!-- Banner Section -->
+<div class="bg-orange text-dark text-center py-4 mb-4" style="border-radius: 10px;">
+    <h1 class="display-4">
+        <i class="fas fa-handshake"></i> Create Deal
+    </h1>
+    <p class="lead"><i class="fas fa-info-circle"></i> Select a rider and a product to create a new deal.</p>
+</div>
+
+<!-- Form Section -->
+<div class="container">
+    <form action="{{ url_for('createDeal') }}" method="POST" class="p-4 shadow-sm" style="background-color: #f8f9fa; border-radius: 10px;">
+        <div class="mb-3">
+            <label for="rider_id" class="form-label" style="color: #007bff;">
+                <i class="fas fa-user"></i> Select Rider:
+            </label>
+            <select name="rider_id" id="rider_id" class="form-select" required>
+                {% for rider in riders %}
+                    <option value="{{ rider[0] }}">{{ rider[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="product_id" class="form-label" style="color: #007bff;">
+                <i class="fas fa-box"></i> Select Product:
+            </label>
+            <select name="product_id" id="product_id" class="form-select" required>
+                {% for product in products %}
+                    <option value="{{ product[0] }}">{{ product[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff;">
+                <i class="fas fa-check"></i> Create Deal
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ms-2">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Implementing the suggestion functionality for the rider and product dropdowns
+    $('#rider_id').select2({
+        placeholder: "Select a Rider",
+        allowClear: true
+    });
+
+    $('#product_id').select2({
+        placeholder: "Select a Product",
+        allowClear: true
+    });
+});
+</script>
+         
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Your Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+  {% endblock %}
+</body>
+</html>
+
+

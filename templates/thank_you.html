@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="thank-you-message text-center py-5">
+        <div class="container">
+            <h1 class="display-4 text-success mb-4">Thank You for Reaching Out!</h1>
+            <p class="lead mb-4">Your message has been successfully submitted. We will get back to you as soon as possible.</p>
+            <p>In the meantime, feel free to explore other parts of our website.</p>
+            <a href="/" class="btn btn-primary btn-lg mt-4">Go Back to Home</a>
+        </div>
+    </div>
+
+    <style>
+        .thank-you-message {
+            background-color: #f8f9fa;
+            background-image: url("{{ url_for('static', filename='images/bg2.jpg') }}");
+            
+            background-size: cover;
+            background-position: center;
+            color: #212529;
+            border-radius: 8px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .thank-you-message h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .thank-you-message p {
+            font-size: 1.2rem;
+            color:orange;
+        }
+
+        .thank-you-message .btn {
+            font-size: 1.1rem;
+            padding: 10px 20px;
+        }
+    </style>
+{% endblock %}

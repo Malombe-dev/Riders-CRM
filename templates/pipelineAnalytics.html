@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Code</title>
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+  {% extends "layout.html" %}
+  {% block content %}
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+      <form class="d-flex mx-auto w-50">
+        <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+        <button class="btn btn-outline-dark search-btn" type="submit">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-light icon-btn">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-light icon-btn pl-2">
+          <span class="material-icons">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm">
+        <div class="position-sticky pt-4" id="sidebarMenu">
+          <ul class="nav flex-column">
+            <!-- Customer Management Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                <strong>Customer Management</strong>
+              </a>
+              <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Riders Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+               <strong> Riders</strong>
+              </a>
+              <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Deals Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+               <strong> Deals</strong>
+              </a>
+              <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Analytics Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+               <strong> Analytics</strong>
+              </a>
+              <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Account Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                <strong>Account</strong>
+              </a>
+              <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  {% if session['key'] %}
+                  <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                  {% else %}
+                  <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+        <div id="content-area">
+          <!-- Dynamic content will load here -->
+
+<div class="container">
+    
+  <!-- Card for displaying total deals count -->
+  <div class="card text-center mb-4">
+      <div class="card-header bg-info text-white">
+          <h4>Total Deals</h4>
+      </div>
+      <div class="card-body">
+          <h1 class="display-4 text-primary">{{ total_deals }}</h1>
+          <p class="card-text">Total number of deals made in the system.</p>
+      </div>
+      <div class="card-footer text-muted">
+          <i class="fas fa-tags fa-2x"></i> <!-- Icon for deals -->
+      </div>
+  </div>
+
+  <div class="row">
+      <!-- Pie Chart -->
+      <div class="col-md-6">
+          <h4>Lead Classification Pie Chart</h4>
+          <canvas id="leadClassificationPieChart" width="400" height="400"></canvas>
+      </div>
+
+      <!-- Funnel Chart -->
+      <div class="col-md-6">
+          <h4>Lead Classification Funnel Chart</h4>
+          <canvas id="leadClassificationFunnelChart" width="200" height="200"></canvas>
+      </div>
+  </div>
+</div>
+
+<style>
+  /* Card styles for hover effect */
+  .card {
+      transition: transform 0.2s;
+  }
+  
+  .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+         
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const leadClassificationPieData = {
+        labels: {{ lead_classification_labels | tojson | safe }},
+        datasets: [{
+          data: {{ lead_classification_counts | tojson | safe }},
+          backgroundColor: ['orange', 'blue', 'green'],
+        }]
+      };
+      
+      renderPieChart('leadClassificationPieChart', leadClassificationPieData);
+      renderFunnelChart();
+    });
+  
+    // Function to render Pie Chart
+    function renderPieChart(canvasId, chartData) {
+      const ctx = document.getElementById(canvasId);
+      if (ctx) {
+        new Chart(ctx.getContext('2d'), {
+          type: 'pie',
+          data: chartData,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'top' },
+              tooltip: {
+                callbacks: {
+                  label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw}`
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+  
+    // Function to render Funnel Chart
+    function renderFunnelChart() {
+      const funnelData = {
+        labels: {{ funnel_labels | tojson | safe }},
+        datasets: [{
+          label: 'Funnel Data',
+          data: {{ funnel_counts | tojson | safe }},
+          backgroundColor: ['orange', 'blue', 'green']
+        }]
+      };
+  
+      const ctx = document.getElementById('leadClassificationFunnelChart');
+      if (ctx) {
+        new Chart(ctx.getContext('2d'), {
+          type: 'bar',
+          data: funnelData,
+          options: {
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Your Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+  {% endblock %}
+</body>
+</html>

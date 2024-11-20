@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Code</title>
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+  {% extends "layout.html" %}
+  {% block content %}
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+      <form class="d-flex mx-auto w-50">
+        <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+        <button class="btn btn-outline-primary search-btn" type="submit">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-light icon-btn">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-light icon-btn pl-2">
+          <span class="material-icons">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm">
+        <div class="position-sticky pt-4" id="sidebarMenu">
+          <ul class="nav flex-column">
+            <!-- Customer Management Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                <strong>Customer Management</strong>
+              </a>
+              <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Riders Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+               <strong> Riders</strong>
+              </a>
+              <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Deals Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+               <strong> Deals</strong>
+              </a>
+              <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Analytics Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+               <strong> Analytics</strong>
+              </a>
+              <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Account Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                <strong>Account</strong>
+              </a>
+              <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  {% if session['key'] %}
+                  <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                  {% else %}
+                  <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+        <div id="content-area">
+          <!-- Dynamic content will load here -->
+          <div class="container mt-5">
+            <!-- Header Section -->
+            <div class="text-center mb-5 bg-orange p-5">
+                <h2 class="display-4">
+                    <i class="fas fa-chart-bar text-info"></i> Analytics Dashboard
+                </h2>
+                <p class="text-muted">Comprehensive view of monthly analytics</p>
+            </div>
+          
+            <!-- Rider Analytics Table Section -->
+            <div class="card shadow-sm mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-motorcycle"></i> Monthly Rider Analytics Per Officer
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Submitted By</th>
+                                    <th scope="col">Rider Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rider in rider_counts %}
+                                <tr>
+                                    <td class="fw-semibold">{{ rider.submitted_by }}</td>
+                                    <td class="text-center">{{ rider.rider_count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+          
+            <!-- Analytics Charts Section -->
+            <div class="row text-center">
+                <!-- Rider Analytics Chart with Blue Header -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-info">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-motorcycle"></i> Monthly Rider Daily entry
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="dailyRiderChart" height="200", width="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+          
+                <!-- Deals Analytics Chart with Orange Header -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-warning">
+                        <div class="card-header bg-warning text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-chart-line"></i> Monthly Deals Daily entry
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="dailyDealsChart" height="200", width="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+         
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deal_dates = {{ deal_dates | tojson | safe }};
+        const deal_counts = {{ deal_counts | tojson | safe }};
+        const rider_days = {{ days | tojson | safe }};  // Pass all days up to the current date
+        const rider_counts = {{ counts | tojson | safe }};  // Pass rider counts, including zeros
+        
+        console.log('Deal Dates:', deal_dates);
+        console.log('Deal Counts:', deal_counts);
+        console.log('Rider Days:', rider_days);
+        console.log('Rider Counts:', rider_counts);
+  
+        if (deal_dates.length > 0 && deal_counts.length > 0) {
+            setupDailyDealsChart(deal_dates, deal_counts);
+        } else {
+            console.log('No deal data available.');
+        }
+  
+        if (rider_days.length > 0 && rider_counts.length > 0) {
+            setupDailyRiderChart(rider_days, rider_counts);  // Initialize the rider chart
+        } else {
+            console.log('No rider data available.');
+        }
+    });
+  
+    function setupDailyDealsChart(deal_dates, deal_counts) {
+        const ctx = document.getElementById('dailyDealsChart');
+        if (ctx) {
+            new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: deal_dates,
+                    datasets: [{
+                        label: 'Daily Deals',
+                        data: deal_counts,
+                        borderColor: 'orange',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value) {
+                                    const date = new Date(value);
+                                    const day = date.getDate();
+                                    const month = date.toLocaleString('default', { month: 'short' });
+                                    return `${day}, ${month}`;
+                                }
+                            },
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                tooltipFormat: 'MMM DD',
+                                displayFormats: {
+                                    day: 'D, MMM'
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            min: 0,
+                            ticks: {
+                                stepSize: 1,  // Ensures whole numbers on the y-axis
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : '';
+                                }
+                            },
+                            grid: {
+                                display: false  // Removes horizontal grid lines
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+  
+    function setupDailyRiderChart(rider_days, rider_counts) {
+        const ctx = document.getElementById('dailyRiderChart');
+        if (ctx) {
+            new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: rider_days,  // Use all days for the x-axis, including zero entries
+                    datasets: [{
+                        label: 'Daily Riders',
+                        data: rider_counts,  // Use rider counts, including zero entries
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(53, 162, 235, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value) {
+                                    const date = new Date(value);
+                                    const day = date.getDate();
+                                    const month = date.toLocaleString('default', { month: 'short' });
+                                    return `${day}, ${month}`;
+                                }
+                            },
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                tooltipFormat: 'MMM DD',
+                                displayFormats: {
+                                    day: 'D, MMM'
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            min: 0,
+                            ticks: {
+                                stepSize: 1,  // Ensures whole numbers on the y-axis
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : '';
+                                }
+                            },
+                            grid: {
+                                display: false  // Removes horizontal grid lines
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+  </script>
+
+  <footer class="bg-primary text-white text-center py-3 mt-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Your Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+  {% endblock %}
+</body>
+</html>

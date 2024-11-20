@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta 
+charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Code</title>
+      
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+      </head>
+      <body>
+        {% extends "layout.html" %}
+        {% block content %}
+        <!-- Top Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+          <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-light ms-3" href="/">Dashboard</a>
+            <form class="d-flex mx-auto w-50">
+              <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+              <button class="btn btn-outline-primary search-btn" type="submit">
+                <span class="material-icons">search</span>
+              </button>
+            </form>
+            <div class="d-flex align-items-center">
+              <button class="btn btn-light icon-btn">
+                <span class="material-icons">settings</span>
+              </button>
+              <button class="btn btn-light icon-btn pl-2">
+                <span class="material-icons">account_circle</span>
+              </button>
+            </div>
+          </div>
+        </nav>
+      
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm" style="min-height: 700px;">
+              <div class="position-sticky pt-4" id="sidebarMenu">
+                <ul class="nav flex-column">
+                  <!-- Customer Management Collapsible -->
+                  <li class="nav-item">
+                    <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                      <strong>Customer Management</strong>
+                    </a>
+                    <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                      <ul class="list-unstyled ms-3">
+                        <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <!-- Riders Collapsible -->
+                  <li class="nav-item">
+                    <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+                     <strong> Riders</strong>
+                    </a>
+                    <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                      <ul class="list-unstyled ms-3">
+                        <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <!-- Deals Collapsible -->
+                  <li class="nav-item">
+                    <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+                     <strong> Deals</strong>
+                    </a>
+                    <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                      <ul class="list-unstyled ms-3">
+                        <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <!-- Analytics Collapsible -->
+                  <li class="nav-item">
+                    <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+                     <strong> Analytics</strong>
+                    </a>
+                    <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                      <ul class="list-unstyled ms-3">
+                        <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <!-- Account Collapsible -->
+                  <li class="nav-item">
+                    <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                      <strong>Account</strong>
+                    </a>
+                    <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                      <ul class="list-unstyled ms-3">
+                        {% if session['key'] %}
+                        <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                        {% else %}
+                        <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                        <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+      
+            <!-- Main Content Area -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+              <div id="content-area">
+                <!-- Dynamic content will load here -->
+
+
+
+    <div class="container mt-4">
+      <h2>Settings</h2>
+      <div class="accordion" id="settingsAccordion">
+        <!-- Profile Settings -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingProfile">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProfile" aria-expanded="true" aria-controls="collapseProfile">
+              Profile Settings
+            </button>
+          </h2>
+          <div id="collapseProfile" class="accordion-collapse collapse show" aria-labelledby="headingProfile" data-bs-parent="#settingsAccordion">
+            <div class="accordion-body">
+              <form>
+                <div class="mb-3">
+                  <label for="profileName" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="profileName" value="John Doe">
+                </div>
+                <div class="mb-3">
+                  <label for="profileEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="profileEmail" value="john@example.com">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Theme Settings -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTheme">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTheme" aria-expanded="false" aria-controls="collapseTheme">
+              Display & Theme
+            </button>
+          </h2>
+          <div id="collapseTheme" class="accordion-collapse collapse" aria-labelledby="headingTheme" data-bs-parent="#settingsAccordion">
+            <div class="accordion-body">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="theme" id="themeLight" checked>
+                <label class="form-check-label" for="themeLight">Light Mode</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="theme" id="themeDark">
+                <label class="form-check-label" for="themeDark">Dark Mode</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Security Settings -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSecurity">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecurity" aria-expanded="false" aria-controls="collapseSecurity">
+              Privacy & Security
+            </button>
+          </h2>
+          <div id="collapseSecurity" class="accordion-collapse collapse" aria-labelledby="headingSecurity" data-bs-parent="#settingsAccordion">
+            <div class="accordion-body">
+              <form>
+                <div class="mb-3">
+                  <label for="currentPassword" class="form-label">Current Password</label>
+                  <input type="password" class="form-control" id="currentPassword">
+                </div>
+                <div class="mb-3">
+                  <label for="newPassword" class="form-label">New Password</label>
+                  <input type="password" class="form-control" id="newPassword">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+              </div>
+            </main>
+          </div>
+        </div>
+      
+        <!-- Footer -->
+        <footer class="bg-primary text-white text-center py-3 mt-auto">
+          <div class="container">
+            <p class="mb-0">&copy; 2024 Your Company. All Rights Reserved.</p>
+          </div>
+        </footer>
+        {% endblock %}
+      </body>
+      </html>

@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- "Get Started" button with an ID -->
+<a href="#" id="getStartedButton" class="btn btn-custom">Get Started</a>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">
+                    <i class="fas fa-envelope me-2"></i> Talk to Us
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Error message container for any errors -->
+                <div id="error_all" class="text-danger mb-3"></div>
+                
+                <form id="registerForm" action="/register" method="post">
+                    <label for="user_name"><i class="fas fa-user"></i> Your Name</label>
+                    <input type="text" class="form-control mb-3" name="user_name" id="user_name" required placeholder="Enter your name">
+
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <div id="error_email" class="text-danger"></div>
+                    <input type="email" class="form-control mb-3" name="email" id="email" required placeholder="Enter your email address">
+
+                    <label for="phone"><i class="fas fa-phone"></i> Phone</label>
+                    <div id="error_phone" class="text-danger"></div>
+                    <input type="tel" class="form-control mb-3" name="phone" id="phone" required placeholder="E.g., +2547xxxxxxxx">
+
+                    <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+                    <input type="text" class="form-control mb-3" name="subject" id="subject" required placeholder="Enter your subject">
+
+                    <label for="message"><i class="fas fa-comment"></i> Your Message</label>
+                    <textarea name="message" id="message" class="form-control mb-3" rows="1" required placeholder="Type your message here..."></textarea>
+
+                    <button type="submit" class="btn btn-submit mt-3">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

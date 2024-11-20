@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Code</title>
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+  {% extends "layout.html" %}
+  {% block content %}
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light ms-3" href="#">Dashboard</a>
+      <form class="d-flex mx-auto w-50">
+        <input class="form-control search-input" type="search" placeholder="Search Riders" aria-label="Search">
+        <button class="btn btn-outline-primary search-btn" type="submit">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-light icon-btn">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-light icon-btn pl-2">
+          <span class="material-icons">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar shadow-sm">
+        <div class="position-sticky pt-4" id="sidebarMenu">
+          <ul class="nav flex-column">
+            <!-- Customer Management Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#customerMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="customerMenu">
+                <strong>Customer Management</strong>
+              </a>
+              <div class="collapse" id="customerMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/allcustomers">View Customers</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Add Customer</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Customer Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Riders Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark " href="#riderMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="riderMenu">
+               <strong> Riders</strong>
+              </a>
+              <div class="collapse" id="riderMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/createRider">Add Rider</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/totalRiders">Total Riders</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="#">Rider Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Deals Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#dealsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dealsMenu">
+               <strong> Deals</strong>
+              </a>
+              <div class="collapse" id="dealsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/totalDeals">View Deals</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/createDeal">Create Deal</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/deal-reports">Deal Reports</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Analytics Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#analyticsMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="analyticsMenu">
+               <strong> Analytics</strong>
+              </a>
+              <div class="collapse" id="analyticsMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  <li><a class="nav-link text-dark bg-light" href="/ridersAnalytics">Rider Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/pipelineAnalytics">Pipeline Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/dealsAnalytics">Deal Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/byProductAnalytics">Product Analytics</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/monthlyAnalytics">Monthly Analytics</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Account Collapsible -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#accountMenu" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accountMenu">
+                <strong>Account</strong>
+              </a>
+              <div class="collapse" id="accountMenu" data-bs-parent="#sidebarMenu">
+                <ul class="list-unstyled ms-3">
+                  {% if session['key'] %}
+                  <li><a class="nav-link text-dark bg-light" href="/login">Profile</a></li>
+                  {% else %}
+                  <li><a class="nav-link text-dark bg-light" href="/settings">Settings</a></li>
+                  <li><a class="nav-link text-dark bg-light" href="/logout">Logout</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4" id="main-content">
+        <div id="content-area">
+          <!-- Dynamic content will load here -->
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-4">
+            <h2 class="  container text-center mt-4" style="color: black;">Rider Details</h2>
+        </div>
+</div>
+
+
+<div class="container mt-4">
+
+    <form>
+        <div class="card mb-4" style="transition: transform 0.2s;">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Rider ID</th>
+                            <td style="color: black;">{{ rider[0] }}</td>
+                        </tr>
+                        <tr> 
+                            <th style="color: #007bff; font-weight: bold;">Name</th>
+                            <td style="color: black;">{{ rider[1] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Phone Number</th>
+                            <td style="color: black;">{{ rider[2] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Work Location</th>
+                            <td style="color: black;">{{ rider[3] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Current Motorbike</th>
+                            <td style="color: black;">{{ rider[4] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Fuel Consumption per Day</th>
+                            <td style="color: black;">{{ rider[5] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Any Pending Loan</th>
+                            <td style="color: black;">{{ 'Yes' if rider[6] else 'No' }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Lead Classification</th>
+                            <td style="color: black;">{{ rider[7] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Any Comments</th>
+                            <td style="color: black;">{{ rider[8] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Submitted By</th>
+                            <td style="color: black;">{{ rider[9] }}</td>
+                        </tr>
+                        <tr>
+                            <th style="color: #007bff; font-weight: bold;">Created At</th>
+                            <td style="color: black;">{{ rider[10] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <h3 class="text-primary mb-4" style="color: black;">Deals Associated with this Rider</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr style="background-color: #007bff; color: white;">
+                    <th style="font-weight: bold;">Deal ID</th>
+                    <th style="font-weight: bold;">Product</th>
+                    <th style="font-weight: bold;">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if deals %}
+                    {% for deal in deals %}
+                        <tr>
+                            <td>{{ deal[0] }}</td>
+                            <td>{{ deal[1] }}</td>
+                            <td>{{ deal[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center;">No deals found for this rider.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<style>
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+</style>
+         
+        </div>
+      </main>
+    </div>
+  </div>
+  {% endblock %}
+</body>
+</html>
