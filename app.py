@@ -66,10 +66,10 @@ def allowed_file(filename):
 # Helper function to get a database connection
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",  # Add your password if set
-        database="rider_db"
+        host= os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
 
 # Fetch total riders
@@ -1051,4 +1051,5 @@ def requests():
         return f"Error connecting to MySQL: {e}"
    
 if __name__ == '__main__':
-    app.run(debug=True, port=4001)
+    port = int(os.environ.get('PORT', 5000))  # Default to 5000 for local testing
+    app.run(host='0.0.0.0', port=port)
