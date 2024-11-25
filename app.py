@@ -8,13 +8,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import re  # for password validation
 from functools import wraps
 from datetime import datetime, timedelta
-from flask import make_response
+from flask import make_response   
 
 # from flask_cors import CORS
 
-
 app = Flask(__name__)
-# CORS(app) 
+
+# CORS(app)      
 app.secret_key = os.urandom(24)
 
 def validate_password(password):
@@ -50,7 +50,7 @@ def validate_phone(phone):
     Validates that the phone number format is correct.
     """
     phone_regex = r'^\+?[1-9]\d{1,14}$'  # E.164 format
-    return re.match(phone_regex, phone)
+    return re.match(phone_regex, phone)     
 
 
 # Set folder to save uploaded product images
@@ -85,14 +85,10 @@ def total_riders():
     # Riders by 'lead_classification'
     cursor.execute("SELECT lead_classification, COUNT(rider_id) FROM riders GROUP BY lead_classification")
     lead_classification_data = cursor.fetchall()
-    
-
-
     return render_template('totalRiders.html'
                            ,submitted_by_data= submitted_by_data,
                            lead_classification_data = lead_classification_data
                             )
-
 # ridersAnalytics Route
 @app.route('/ridersAnalytics')
 def riders_analytics():
@@ -112,12 +108,9 @@ def riders_analytics():
     loan_status_data = cursor.fetchall()
     loan_status_labels = ['No Loan', 'Has Loan']
     loan_status_data = [(loan_status_labels[status[0]], status[1]) for status in loan_status_data]
-
-
-    
+    # close cursor 
     cursor.close()
     db.close()
-    
     return render_template('ridersAnalytics.html',
                            total_riders=total_riders, 
                             location_data=location_data, 
@@ -196,10 +189,6 @@ def allcustomers():
 
     # Pass the search query and the results to the template
     return render_template('allcustomers.html', riders=riders, page=page, search_query=search_query, no_results=len(riders) == 0)
-
- # Ensure you have this template created
-
-
 
 @app.route('/delete_rider/<int:rider_id>', methods=['POST'])
 def delete_rider(rider_id):
@@ -474,16 +463,14 @@ def dealsAnalytics():
     db.close()
     # Sending data to the template
     return render_template(
-        'dealsAnalytics.html',total_deals_count=total_deals_count,
-                              
+        'dealsAnalytics.html',total_deals_count=total_deals_count,                            
                                 submitted_by_labels=submitted_by_labels, 
                                 submitted_by_counts=submitted_by_counts, 
                                 products=products, 
                                 product_counts=product_counts)
 
-    # byproductAnalysis
-    
-
+ 
+   # byproductAnalysis
 @app.route('/byProductAnalytics', methods=['GET'])
 def byProductAnalytics():
     db = get_db_connection()
@@ -534,13 +521,6 @@ def register1():
 # Dashboard route and all graphs
 @app.route('/')
 def dashboard():
-    db = get_db_connection()
-    cursor = db.cursor()
-
-
-
-
-    # Render the template with all data in JSON format for JavaScript usage
     return render_template('dashboard.html')
 
 # Monthly Analytics Route
@@ -622,19 +602,14 @@ def monthly_analytics():
     except Exception as e:
         print(f"Error fetching daily deals analytics: {e}")
         deal_dates, deal_counts = [], []  # In case of error, return empty lists
-
     finally:
         cursor.close()
         db.close()
-   
     return render_template('monthlyAnalytics.html', rider_counts=rider_counts,
                            days=all_days, counts=all_counts,
                            deal_dates=all_days, deal_counts=all_deals_counts)
 
-
-
-
-
+# register Route 
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
@@ -741,9 +716,6 @@ def user_register():
         return redirect(url_for('login'))
 
     return render_template('user_register.html') 
-
-# log in route 
-# log in route 
 
 # Login route with role-based redirection
 @app.route('/login', methods=['GET', 'POST'])
@@ -889,8 +861,7 @@ def user_dashboard():
         
         
         # Render user dashboard from the user folder
-        return render_template('user/dashboard2.html'
-                               , 
+        return render_template('user/dashboard2.html'                             , 
         submitted_by_data=submitted_by_data, 
         lead_classification_data=lead_classification_data,
         total_riders=total_riders, 
@@ -1003,8 +974,7 @@ def admin_dashboard():
     WHERE MONTH(created_at) = MONTH(CURRENT_DATE) AND YEAR(created_at) = YEAR(CURRENT_DATE)
     GROUP BY deal_date
     ORDER BY deal_date;
-    """
-    
+    """ 
     try:
         cursor.execute(query)
         daily_deals_data = cursor.fetchall()  # Fetch all results from the executed query
@@ -1019,14 +989,10 @@ def admin_dashboard():
     finally:
         cursor.close()  # Ensure cursor is closed
         db.close()  # Ensure database connection is closed
-    
-   
-    
-    if 'user_id' in session and session['role'] == 'admin':
         
+    if 'user_id' in session and session['role'] == 'admin':       
         # Render admin dashboard from the admin folder
-        return render_template('admin/dashboard1.html'
-                               , 
+        return render_template('admin/dashboard1.html', 
         submitted_by_data=submitted_by_data, 
         lead_classification_data=lead_classification_data,
         total_riders=total_riders, 
@@ -1051,7 +1017,6 @@ def admin_dashboard():
         return redirect(url_for('login'))
 
 # log out route 
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -1059,10 +1024,12 @@ def logout():
     return redirect(url_for('login'))
 
 
+#settings 
 @app.route('/settings')
 def settings():
     return render_template('/settings.html')
 
+#admin requests 
 @app.route('/admin/requests')
 def requests():
     try:
@@ -1082,6 +1049,6 @@ def requests():
         return render_template('requests.html', contact_forms=contact_forms)
     except mysql.connector.Error as e:
         return f"Error connecting to MySQL: {e}"
-
+   
 if __name__ == '__main__':
     app.run(debug=True, port=4001)
